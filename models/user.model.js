@@ -35,6 +35,10 @@ const schema = new Schema(
         type: String,
         trim: true,
         required: true
+      },
+      token:{
+        type: String,
+        default: null
       }
     });
 

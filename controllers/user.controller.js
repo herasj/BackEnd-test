@@ -13,6 +13,23 @@ module.exports = {
         else{
             return 0; // Email already in use
         }
+    },
+    research: async (email) => {
+        const result = await model.findOne({email}).select('password -_id');
+        if(!result){
+            return 0; //User doesnt exist
+        }
+        else{
+            return result._doc.password; //Return encrypted password
+        }
+    },
+    token: (data) => {
+        model.update({email: data.email},{token: data.token}, (err) => {
+            if (err) throw err
+        }
+        )
     }
+    
+    
     
 }
