@@ -8,10 +8,10 @@ module.exports = {
                 if (err) throw err
             }
             );
-            return 1; // User created
+            return true; // User created
         }
         else{
-            return 0; // Email already in use
+            return false; // Email already in use
         }
     },
     research: async (email) => {
@@ -23,8 +23,31 @@ module.exports = {
             return result._doc.password; //Return encrypted password
         }
     },
-    token: (data) => {
-        model.update({email: data.email},{token: data.token}, (err) => {
+    update: async(id,data) => {
+        let result = await model.findById(id).select('active -_id');
+        result = result._doc.active; //Get Active value
+        if (result==true){
+            await model.findByIdAndUpdate(id,data,(err) => {
+                if (err) throw err;
+            })
+            return true; //OK
+        }
+        else{
+            return false; //Unactive user
+        }
+    },
+    delete: async (id) => {
+        const result = await model.findByIdAndUpdate(id,{visible: false, active: false});
+        if (!result){
+            return false;
+        }
+        else{
+            return true;
+        }
+    },  
+    
+    token: async (data) => {
+        await model.update({email: data.email},{token: data.token}, (err) => {
             if (err) throw err
         }
         )
