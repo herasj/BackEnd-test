@@ -3,8 +3,9 @@ const router = express.Router();
 const jwt = require('../helpers/jwt');
 const controller = require('../controllers/user.controller');
 const bcrypt = require('bcrypt'); 
+const checkemail = require('../middleware/email'); //Email middleware
 
-router.post('/', function(req, res, next) {
+router.post('/',checkemail, function(req, res, next) {
   controller.research(req.body.email).then((user) => {
     if(user==0){
       res.status(400).send('User doesnt exist');
