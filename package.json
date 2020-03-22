@@ -1,6 +1,6 @@
 {
   "name": "backend-test",
-  "description": "API test for LA Electronic & Signal Traffic",
+  "description": "API test for LA Electronic Corp",
   "version": "1.0.0",
   "private": true,
   "repository": {
@@ -9,10 +9,12 @@
   "readme": "",
   "license": "ISC",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "nodemon app.js"
   },
   "author": "Juan Rambal",
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "cookie-parser": "~1.4.4",
     "core-js": "^3.6.4",
     "debug": "~2.6.9",
@@ -23,8 +25,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.5",
     "morgan": "~1.9.1",
-    "nodemon": "^2.0.2",
     "pug": "^2.0.4",
     "validator": "^13.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }
