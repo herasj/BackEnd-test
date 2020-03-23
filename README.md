@@ -20,6 +20,7 @@
 	"email": ".",
 	"password": "",
 	"phone":""
+
 *Return: 201 Status Code and a random cat fact*
 
 ### Authorization
@@ -28,6 +29,7 @@
     Body
     "email": "",
 	"password": ""
+
 *Return 200 Status Code, JWT Access token and a random cat fact*
 
 ### Update user
@@ -46,7 +48,7 @@ Send the new parameters through body
 > PATCH /users/:id/set/image
 
 Send **file** through body (form-data)
-
+<br>
 *Return: 200 Status Code and a random cat fact*
 
 ### Set active
@@ -68,12 +70,14 @@ Send **file** through body (form-data)
 >  GET /authorization
 
 Send ID through query parameter
+<br>
 *Return: 200 Status Code and a random cat fact*
 
 ### Send message
 > POST /messages/send
 
 Send message through body
+<br>
 *Return: 200 Status Code and a random cat fact*
 
 ### Get messages
