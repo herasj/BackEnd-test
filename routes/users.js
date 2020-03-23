@@ -58,7 +58,6 @@ router.get('/:id', jwt, (req, res) => {
 
 //Update user info
 router.put('/:id', jwt, (req, res) => {
-	console.log(`${process.env.ACCESS_TOKEN_SECRET}`);
 	controller
 		.update(req.params.id, req.body)
 		.then((result) => {
@@ -82,7 +81,6 @@ router.delete('/:id', jwt, (req, res) => {
 
 //Upload Img
 router.patch('/:id/set/image', fileUploadMiddleware, (req, res) => {
-	// console.table(req.files)
 	if (!req.files || Object.keys(req.files).length === 0) {
 		return res.status(400).send('No files were uploaded');
 	}
@@ -94,12 +92,14 @@ router.patch('/:id/set/image', fileUploadMiddleware, (req, res) => {
 	}
 	imagefile.mv('public/images/profile.jpg', function(err) {
 		if (err) return res.status(500).send(err);
-		image.upload(req.params.id).then(() => {
-			cat.fact().then((fact) => {
-				res.status(200).json({ fact });
-			});
-    })
-    .catch((err)=> res.status(400).send('Couldnt find user'))
+		image
+			.upload(req.params.id)
+			.then(() => {
+				cat.fact().then((fact) => {
+					res.status(200).json({ fact });
+				});
+			})
+			.catch((err) => res.status(400).send('Couldnt find user'));
 	});
 });
 

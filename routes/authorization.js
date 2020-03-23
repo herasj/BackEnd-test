@@ -10,9 +10,8 @@ const jwtMiddleware = require('../middleware/jwt-verifier');
 router.get('/', jwtMiddleware, (req, res) => {
 	//This route should be a PUT/PATCH
 	controller
-		.updateToken(req.query.id, null)
+		.updateToken(req.query.id, null)//Set token db to null
 		.then((result) => {
-			//Set token db to null
 			cat.fact().then((fact) => {
 				//Wait cat fact
 				result ? res.status(200).json({ fact }) : res.status(400).send('Unactive user');
