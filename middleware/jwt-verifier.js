@@ -9,6 +9,8 @@ const verify = (req,res,next) => {
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) return res.sendStatus(403); // Invalid Token
         controller.research(user.id).then((result) => {
+            console.dir(user.id);
+            if(!result.token) res.sendStatus(403);
             if(token==result.token){ //If token if the same stored in db
                 req.user = user.id; //User session
                 next(); // Success, move to next middleware
