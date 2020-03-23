@@ -8,12 +8,6 @@ require('dotenv');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// bb.extend(app, { //Allow file upload
-//   upload: true,
-//   path: './',
-//   allowedPath: /./
-// });
-
 db.then(
     () => {
       console.log('Connected to MongoDB')
