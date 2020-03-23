@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const controller = require('../controllers/user.controller');
 require('dotenv');
 
 const verify = (req,res,next) => {
@@ -7,8 +8,18 @@ const verify = (req,res,next) => {
     if (token == null) return res.sendStatus(401); // If there's no token return ERROR 401
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) return res.sendStatus(403); // Invalid Token
-        req.user = user; //User session
-        next(); // Success, move to next middleware
+        controller.research(user.id).then((result) => {
+            if(token==result.token){ //If token if the same stored in db
+                req.user = user.id; //User session
+                next(); // Success, move to next middleware
+            }
+            else{
+                res.sendStatus(403);
+            }
+        }
+        )
+        .catch((err)=>console.error(err));
+        
     });
 }
 

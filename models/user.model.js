@@ -36,6 +36,10 @@ const schema = new Schema(
         trim: true,
         required: true
       },
+      img:{
+        type: String,
+        default: null
+      },
       token:{
         type: String,
         default: null

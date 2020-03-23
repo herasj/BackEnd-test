@@ -5,12 +5,13 @@ const logger = require('morgan');
 const createError = require('http-errors');
 const app = express();
 
-//Basic express middleware
+//Basic express middleware 
 app.use(logger('dev'));
-app.use(express.json());
+app.use(express.json()); 
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 //Routes
 const authRouter = require('../routes/authorization');
@@ -21,7 +22,6 @@ const messageRouter = require('../routes/messages');
 app.use('/users', usersRouter);
 app.use('/authorization', authRouter);
 app.use('/messages', messageRouter);
-
 
 
 // catch 404 and forward to error handler

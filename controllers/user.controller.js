@@ -14,15 +14,15 @@ module.exports = {
             return false; // Email already in use
         }
     },
-    research: async (email) => {
-        const result = await model.findOne({email}).select('password -_id');
-        if(!result){
-            return 0; //User doesnt exist
-        }
-        else{
-            return result._doc.password; //Return encrypted password
-        }
-    },
+   research: async (id) => {
+       const result = await model.findById(id,(err) => {
+           if (err) throw err
+       }
+       );
+       if(result) return result._doc;//If there's an user, return the data
+
+   },
+   
     update: async(id,data) => {
         let result = await model.findById(id).select('active -_id');
         result = result._doc.active; //Get Active value
@@ -37,21 +37,52 @@ module.exports = {
         }
     },
     delete: async (id) => {
-        const result = await model.findByIdAndUpdate(id,{visible: false, active: false});
-        if (!result){
+        try {
+            await model.findByIdAndUpdate(id,{visible: false, active: false});  
+            return true;
+        } catch (error) {
+            console.error(error)
             return false;
         }
-        else{
-            return true;
-        }
+    
     },  
     
-    token: async (data) => {
-        await model.update({email: data.email},{token: data.token}, (err) => {
-            if (err) throw err
+    // token: async (data) => {
+    //     await model.update({email: data.email},{token: data.token}, (err) => {
+    //         if (err) throw err
+    //     }
+    //     )
+    // },
+
+    setActive: async (id,active) => {
+        try {
+            await model.findByIdAndUpdate(id,{active: active});  
+            return true;
+        } catch (error) {
+            console.error(error)
+            return false;
         }
-        )
-    }
+    },
+    setVisible: async (id,visible) => {
+        try {
+            await model.findByIdAndUpdate(id,{visible: visible});  
+            return true;
+        } catch (error) {
+            console.error(error)
+            return false;
+        }
+    },
+    getPass: async (email) => {
+        const result = await model.findOne({email}).select('password');
+        if(!result){
+            return 0; //User doesnt exist
+        }
+        else{
+            return result._doc; //Return encrypted password
+        }
+    },
+
+    
     
     
     

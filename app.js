@@ -1,11 +1,18 @@
 const app = require('./config/express');
 const path = require('path');
 const db = require('./config/mongo');
+// const bb = require('express-busboy');
 require('dotenv');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+// bb.extend(app, { //Allow file upload
+//   upload: true,
+//   path: './',
+//   allowedPath: /./
+// });
 
 db.then(
     () => {
