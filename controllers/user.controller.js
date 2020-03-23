@@ -17,14 +17,14 @@ module.exports = {
    research: async (id) => {
        const result = await model.findById(id,(err) => {
            if (err) throw err
-       }
-       );
+       });
        if(result) return result._doc;//If there's an user, return the data
 
    },
    
     update: async(id,data) => {
         let result = await model.findById(id).select('active -_id');
+        if(!result) return false
         result = result._doc.active; //Get Active value
         if (result==true){
             await model.findByIdAndUpdate(id,data,(err) => {
@@ -81,6 +81,13 @@ module.exports = {
             return result._doc; //Return encrypted password
         }
     },
+    updateToken: async (id,token) => {
+        await model.findByIdAndUpdate(id,{token},(err) => {
+            if (err) throw err;
+        })
+        return true; //OK
+    }
+    
 
     
     
