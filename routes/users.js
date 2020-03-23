@@ -8,7 +8,8 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('../middleware/jwt-verifier'); //Jwt verifier middleware
 const checkemail = require('../middleware/email'); //Email validator middleware
-
+const fileUpload = require('express-fileupload'); //File upload middleware
+const fileUploadMiddleware = fileUpload();
 //Create new user
 router.post('/',checkemail,function(req, res) {
   bcrypt.hash(req.body.password, saltRounds, function(err, hash) { //Encrypt password
@@ -74,17 +75,28 @@ router.delete('/:id',jwt,(req,res) => {
 })
 
 //Upload Img
-router.patch('/:id/set/image',(req,res) => {
-  console.dir(req.files);
-  console.dir(req.file);
-  // const file = req.files.img;
-  // file.mv('./image/hello.jpg',(err) => {
-  //   if(err) throw err;
-  // }
-  // )
-  cat.fact().then((fact) => {
-    res.status(200).json({fact})
-  })
+router.patch('/:id/set/image',fileUploadMiddleware,(req,res) => {
+  // console.table(req.files)
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded');
+  }
+  let imagefile;
+  for(var propName in req.files) {
+    if(req.files.hasOwnProperty(propName)) {
+      imagefile = req.files[propName]; //ONLY DEV Postman doesnt label the form
+    }
+  }
+    imagefile.mv('public/images/profile.jpg', function(err) {
+      if (err)
+        return res.status(500).send(err);
+      image.upload(req.user).then(() => {
+        cat.fact().then((fact) => {
+          res.status(200).json({fact})
+        })
+      })
+    });
+  
+  
 })
 
 router.patch('/:id/set/status/active/:active',jwt,(req,res) => {
