@@ -14,7 +14,7 @@
   },
   "author": "Juan Rambal",
   "dependencies": {
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "cookie-parser": "~1.4.4",
     "core-js": "^3.6.4",
     "debug": "~2.6.9",
